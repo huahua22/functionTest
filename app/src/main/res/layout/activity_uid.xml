@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".UIdActivity">
+
+	<ScrollView
+		android:id="@+id/tv"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:scrollbars="none">
+
+		<TextView
+			android:id="@+id/tvOutput"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentLeft="true"
+			android:focusable="true"
+			android:focusableInTouchMode="true"/>
+	</ScrollView>
+
+	<!--<TextView-->
+	<!--android:id="@+id/tv_title"-->
+	<!--android:layout_width="wrap_content"-->
+	<!--android:layout_height="wrap_content"-->
+	<!--android:layout_below="@id/tvOutput"-->
+	<!--android:layout_alignTop="@id/tvOutput"-->
+	<!--android:layout_alignRight="@id/tvOutput"-->
+	<!--android:layout_alignParentRight="true"-->
+	<!--android:text="身份证循环测试"-->
+	<!--android:textSize="30dp"/>-->
+
+	<!--<TextView-->
+	<!--android:id="@+id/tvLeft1"-->
+	<!--android:layout_width="wrap_content"-->
+	<!--android:layout_height="wrap_content"-->
+	<!--android:layout_below="@id/tv_title"-->
+	<!--android:layout_alignRight="@id/tvOutput"-->
+	<!--android:text="测试总次数："-->
+	<!--android:textSize="20dp"/>-->
+
+	<!--<TextView-->
+	<!--android:id="@+id/tvLeft2"-->
+	<!--android:layout_width="wrap_content"-->
+	<!--android:layout_height="wrap_content"-->
+	<!--android:layout_below="@id/tvLeft1"-->
+	<!--android:layout_alignRight="@id/tvOutput"-->
+	<!--android:text="错误次数："-->
+	<!--android:textSize="20dp"/>-->
+
+	<Button
+		android:id="@+id/btnleft01"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignRight="@id/tv"
+		android:layout_alignParentRight="true"
+		android:text="开始"
+		/>
+
+	<Button
+		android:id="@+id/btnleft02"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/btnleft01"
+		android:layout_alignRight="@id/tv"
+		android:layout_alignParentRight="true"
+		android:text="循环"
+		/>
+
+	<Button
+		android:id="@+id/btnleft03"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/btnleft02"
+		android:layout_alignRight="@id/tv"
+		android:layout_alignParentRight="true"
+		android:text="暂停"
+		/>
+
+	<!--<ImageView-->
+	<!--android:id="@+id/ivTest"-->
+	<!--android:layout_width="wrap_content"-->
+	<!--android:layout_height="wrap_content"-->
+	<!--android:layout_alignTop="@id/btnleft01"-->
+	<!--android:layout_toLeftOf="@id/btnleft01"-->
+	<!--android:src="@mipmap/ic_launcher"-->
+	<!--/>-->
+</RelativeLayout>
