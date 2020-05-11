@@ -9,7 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xwr.mulkeyboard.HexUtil;
-import com.xwr.mulkeyboard.usbapi.USBDevice;
+import com.xwr.mulkeyboard.usbapi.UDevice;
 import com.xwr.mulkeyboard.usbapi.UsbApi;
 import com.xwr.mulkeyboard.utils.UsbUtil;
 
@@ -54,13 +54,13 @@ public class UIccActivity extends BaseActivity implements View.OnClickListener {
     byte slot = 0x01;
     switch (v.getId()) {
       case R.id.readerInit:
-        if (USBDevice.mDeviceConnection != null) {
-          ret = UsbApi.Reader_Init(USBDevice.mDeviceConnection, USBDevice.usbEpIn, USBDevice.usbEpOut);
+        if (UDevice.mDeviceConnection != null) {
+          ret = UsbApi.Reader_Init(UDevice.mDeviceConnection, UDevice.usbEpIn, UDevice.usbEpOut);
           result.append("\nread init=" + ret);
         } else {
           showTmsg("请设置权限");
           try {
-            UsbUtil.getInstance(this).initUsbData();
+            UsbUtil.getInstance(this).initUsbData(0xffff,0xffff);
           } catch (InterruptedException e) {
             e.printStackTrace();
           }
@@ -151,5 +151,11 @@ public class UIccActivity extends BaseActivity implements View.OnClickListener {
     Toast.makeText(UIccActivity.this, msg, Toast.LENGTH_SHORT).show();
   }
 
-
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    UDevice.mDeviceConnection.close();
+    UDevice.mDeviceConnection = null;
+//    UsbUtil.getInstance(this).usbDestroy();
+  }
 }

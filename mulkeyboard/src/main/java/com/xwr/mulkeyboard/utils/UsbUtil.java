@@ -13,7 +13,7 @@ import android.hardware.usb.UsbManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.xwr.mulkeyboard.usbapi.USBDevice;
+import com.xwr.mulkeyboard.usbapi.UDevice;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -53,7 +53,7 @@ public class UsbUtil {
   }
 
   //初始化USB接口
-  public void initUsbData() throws InterruptedException {
+  public void initUsbData(int vendorid, int productid) throws InterruptedException {
     // 获取USB设备
     manager = (UsbManager) mContext.getSystemService(Context.USB_SERVICE);
     //获取到设备列表
@@ -61,10 +61,9 @@ public class UsbUtil {
 
     Iterator<UsbDevice> deviceIterator = deviceList.values().iterator();
     while (deviceIterator.hasNext()) {
-      //             Log.e("ldm", "vid=" + mUsbDevice.getVendorId() + "---pid=" + mUsbDevice.getProductId());
       mUsbDevice = deviceIterator.next();
       Log.e("ldm", "vid=" + mUsbDevice.getVendorId() + "---pid=" + mUsbDevice.getProductId());
-      if ((0xffff == mUsbDevice.getVendorId()) && (0xffff == mUsbDevice.getProductId())) {//找到指定设备
+      if ((vendorid == mUsbDevice.getVendorId()) && (productid == mUsbDevice.getProductId())) {//找到指定设备
         int temp = mUsbDevice.getVendorId();
         break;
       }
@@ -89,10 +88,9 @@ public class UsbUtil {
         afterGetUsbPermission();
       } else {
         requestPermission(mUsbDevice);
-        //        showTmsg("没有权限");
       }
     } else {
-      //      showTmsg("没有找到设备接口！");
+      Log.d("xwr", "没有找到设备接口");
     }
 
   }
@@ -122,19 +120,14 @@ public class UsbUtil {
       //      showTmsg("找到设备接口");
       Log.d("Test", "找到设备");
       //            Log.d("Test","test");
-      USBDevice.mDeviceConnection = mDeviceConnection;
-      USBDevice.usbEpIn = usbEpIn;
-      USBDevice.usbEpOut = usbEpOut;
+      UDevice.mDeviceConnection = mDeviceConnection;
+      UDevice.usbEpIn = usbEpIn;
+      UDevice.usbEpOut = usbEpOut;
     } else {
       mDeviceConnection.close();
     }
   }
 
-  //文字提示方法
-/*  private void showTmsg(String msg) {
-    Log.d("xwr", msg);
-//    Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
-  }*/
 
   // 请求获取指定 USB 设备的权限
   public void requestPermission(UsbDevice device) {
@@ -174,6 +167,12 @@ public class UsbUtil {
       }
     }
   };
+
+  public void usbDestroy() {
+    if (mUsbPermissionActionReceiver != null) {
+      mContext.unregisterReceiver(mUsbPermissionActionReceiver);
+    }
+  }
 
 
 }

@@ -6,8 +6,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xwr.mulkeyboard.KeyboardServer;
-import com.xwr.mulkeyboard.UKeyDevice;
-import com.xwr.mulkeyboard.UKeyUtil;
+import com.xwr.mulkeyboard.usbapi.UDevice;
+import com.xwr.mulkeyboard.utils.UsbUtil;
 
 public class MulkeyActivity extends BaseActivity {
 
@@ -39,21 +39,27 @@ public class MulkeyActivity extends BaseActivity {
 
   private void initData() {
     try {
-      UKeyUtil.getInstance(this).initUsbData();
+      UsbUtil.getInstance(this).initUsbData(0x09, 0x09);
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-    mKeyboardServer = new KeyboardServer();
-    if (UKeyDevice.mDeviceConnection != null) {
-      mKeyboardServer.key_init();
-    } else {
-      Toast.makeText(this, "请获取权限", Toast.LENGTH_LONG).show();
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
     }
+
   }
 
   public void init(View view) {
-    int ret = mKeyboardServer.key_read_init();
-    mInit.setText("init:" + ret);
+    if (UDevice.mDeviceConnection != null) {
+      mKeyboardServer = new KeyboardServer();
+      mKeyboardServer.key_init();
+      int ret = mKeyboardServer.key_read_init();
+    } else {
+      Toast.makeText(this, "请获取权限", Toast.LENGTH_LONG).show();
+    }
+
   }
 
   public void inputPsd(View view) {
@@ -95,6 +101,9 @@ public class MulkeyActivity extends BaseActivity {
   @Override
   protected void onDestroy() {
     super.onDestroy();
-//    mKeyboardServer.key_close();
+    UDevice.mDeviceConnection.close();
+    UDevice.mDeviceConnection = null;
+    //    UsbUtil.getInstance(this).usbDestroy();
+
   }
 }

@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.xwr.mulkeyboard.HexUtil;
-import com.xwr.mulkeyboard.usbapi.USBDevice;
+import com.xwr.mulkeyboard.usbapi.UDevice;
 import com.xwr.mulkeyboard.usbapi.UsbApi;
 import com.xwr.mulkeyboard.utils.UsbUtil;
 
@@ -28,9 +28,9 @@ public class UIdActivity extends BaseActivity implements View.OnClickListener {
   private Handler handler = new Handler();
   private Runnable task = new Runnable() {
     public void run() {
-      if (USBDevice.mDeviceConnection == null) {
+      if (UDevice.mDeviceConnection == null) {
         try {
-          UsbUtil.getInstance(mContext).initUsbData();
+          UsbUtil.getInstance(mContext).initUsbData(0xffff,0xffff);
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
@@ -73,17 +73,17 @@ public class UIdActivity extends BaseActivity implements View.OnClickListener {
     long ret;
     switch (v.getId()) {
       case R.id.btnleft01:
-        if (USBDevice.mDeviceConnection == null) {
+        if (UDevice.mDeviceConnection == null) {
           try {
-            UsbUtil.getInstance(this).initUsbData();
+            UsbUtil.getInstance(this).initUsbData(0xffff,0xffff);
           } catch (InterruptedException e) {
             e.printStackTrace();
           }
         }
-        ret = UsbApi.Reader_Init(USBDevice.mDeviceConnection, USBDevice.usbEpIn, USBDevice.usbEpOut);
+        ret = UsbApi.Reader_Init(UDevice.mDeviceConnection, UDevice.usbEpIn, UDevice.usbEpOut);
         tvOutput.append("\nread init=" + ret);
         byte[] cardInfo = new byte[1300];
-        ret = UsbApi.Reader_Init(USBDevice.mDeviceConnection, USBDevice.usbEpIn, USBDevice.usbEpOut);
+        ret = UsbApi.Reader_Init(UDevice.mDeviceConnection, UDevice.usbEpIn, UDevice.usbEpOut);
         tvOutput.append("\nread init=" + ret);
         ret = UsbApi.Syn_Get_Card(cardInfo);
         tvOutput.append("\nget card=" + ret);
@@ -132,6 +132,9 @@ public class UIdActivity extends BaseActivity implements View.OnClickListener {
   @Override
   protected void onDestroy() {
     super.onDestroy();
+    UDevice.mDeviceConnection.close();
+    UDevice.mDeviceConnection = null;
+//    UsbUtil.getInstance(this).usbDestroy();
   }
 
 
@@ -142,6 +145,5 @@ public class UIdActivity extends BaseActivity implements View.OnClickListener {
       tvOutput.scrollTo(0, offset - tvOutput.getHeight());
     }
   }
-
 
 }

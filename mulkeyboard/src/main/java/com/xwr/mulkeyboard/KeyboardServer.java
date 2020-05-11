@@ -1,10 +1,10 @@
 package com.xwr.mulkeyboard;
 
+import com.xwr.mulkeyboard.usbapi.UDevice;
+
 import java.util.Arrays;
 
 import static com.xwr.mulkeyboard.UKeyApi.key_clear;
-import static com.xwr.mulkeyboard.UKeyDevice.usbEpIn;
-import static com.xwr.mulkeyboard.UKeyDevice.usbEpOut;
 
 /**
  * Create by xwr on 2020/4/28
@@ -13,7 +13,7 @@ import static com.xwr.mulkeyboard.UKeyDevice.usbEpOut;
 public class KeyboardServer {
 
   public void key_init() {
-    UKeyApi.key_reader_Init(UKeyDevice.mDeviceConnection, usbEpIn, usbEpOut);
+    UKeyApi.key_reader_Init(UDevice.mDeviceConnection, UDevice.usbEpIn, UDevice.usbEpOut);
   }
 
   public int key_read_init() {
