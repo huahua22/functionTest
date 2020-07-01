@@ -2,21 +2,16 @@ package com.xwr.functiontest;
 
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.xwr.mulkeyboard.HexUtil;
 import com.xwr.mulkeyboard.usbapi.UDevice;
 import com.xwr.mulkeyboard.usbapi.UsbApi;
 import com.xwr.mulkeyboard.utils.UsbUtil;
 
-import java.io.UnsupportedEncodingException;
-
 import static com.xwr.mulkeyboard.HexUtil.bytesToHexString;
-import static java.sql.DriverManager.println;
 
 public class UIccActivity extends BaseActivity implements View.OnClickListener {
   Button mReaderInit;
@@ -60,7 +55,7 @@ public class UIccActivity extends BaseActivity implements View.OnClickListener {
         } else {
           showTmsg("请设置权限");
           try {
-            UsbUtil.getInstance(this).initUsbData(0xffff,0xffff);
+            UsbUtil.getInstance(this).initUsbData(0xffff, 0xffff);
           } catch (InterruptedException e) {
             e.printStackTrace();
           }
@@ -85,47 +80,47 @@ public class UIccActivity extends BaseActivity implements View.OnClickListener {
         result.append("\nget devId=" + ret + ";devId=" + bytesToHexString(devId, (int) ret));
         break;
       case R.id.readWrite:
-        byte[] apdu1 = new byte[64];
-        byte[] apdu2 = new byte[64];
-        byte[] apdu3 = new byte[64];
-        byte[] apdu4 = new byte[64];
-        byte[] apdu5 = new byte[64];
-        ret = UsbApi.ICC_Reader_Application(slot, 20, APU1, apdu1);
-        println("init1 card=" + HexUtil.bytesToHexString(apdu1, (int) ret));
-        ret = UsbApi.ICC_Reader_Application(slot, 7, APU2, apdu1);
-        println("init2 card=" + HexUtil.bytesToHexString(apdu1, (int) ret));
-        ret = UsbApi.ICC_Reader_Application(slot, 5, APU3, apdu2);
-        Log.i("xwr", "card num hex:" + HexUtil.bytesToHexString(apdu2, (int) ret));
-        byte[] data1 = new byte[9];
-        System.arraycopy(apdu2, 2, data1, 0, 9);
-        Log.i("xwr", "card num:" + new String(data1));
-        ret = UsbApi.ICC_Reader_Application(slot, 7, APU5, apdu3);
-        Log.i("xwr","card verify:" + HexUtil.bytesToHexString(apdu3, (int) ret));
-        ret = UsbApi.ICC_Reader_Application(slot, 5, APU6, apdu5);
-        Log.i("xwr","card id:" + HexUtil.bytesToHexString(apdu5, (int) ret));
-        byte[] data2 = new byte[18];
-        System.arraycopy(apdu5, 2, data2, 0, 18);
-        if (ret > 0) {
-          result.append("\ncard num:" + new String(data2));
-        } else {
-          String data = new String("获取卡号失败");
-          result.append("\n" + data);
-        }
-        long ret3 = UsbApi.ICC_Reader_Application(slot, 5, APU4, apdu4);
-        println("--->>>card name Hex:" + HexUtil.bytesToHexString(apdu4, (int) ret3));
-        if (ret3 > 0) {
-          try {
-            String name = new String(apdu4, 2, (byte) 0x1E, "GBK").trim();
-            result.append("\ncard name:" + name);
-          } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-          }
-        } else {
-          String data = new String("获取持卡人失败");
-          result.append("\n" + data);
-        }
+        //        byte[] apdu1 = new byte[64];
+        //        byte[] apdu2 = new byte[64];
+        //        byte[] apdu3 = new byte[64];
+        //        byte[] apdu4 = new byte[64];
+        //        byte[] apdu5 = new byte[64];
+        //        ret = UsbApi.ICC_Reader_Application(slot, 20, APU1, apdu1);
+        //        println("init1 card=" + HexUtil.bytesToHexString(apdu1, (int) ret));
+        //        ret = UsbApi.ICC_Reader_Application(slot, 7, APU2, apdu1);
+        //        println("init2 card=" + HexUtil.bytesToHexString(apdu1, (int) ret));
+        //        ret = UsbApi.ICC_Reader_Application(slot, 5, APU3, apdu2);
+        //        Log.i("xwr", "card num hex:" + HexUtil.bytesToHexString(apdu2, (int) ret));
+        //        byte[] data1 = new byte[9];
+        //        System.arraycopy(apdu2, 2, data1, 0, 9);
+        //        Log.i("xwr", "card num:" + new String(data1));
+        //        ret = UsbApi.ICC_Reader_Application(slot, 7, APU5, apdu3);
+        //        Log.i("xwr", "card verify:" + HexUtil.bytesToHexString(apdu3, (int) ret));
+        //        ret = UsbApi.ICC_Reader_Application(slot, 5, APU6, apdu5);
+        //        Log.i("xwr", "card id:" + HexUtil.bytesToHexString(apdu5, (int) ret));
+        //        byte[] data2 = new byte[18];
+        //        System.arraycopy(apdu5, 2, data2, 0, 18);
+        //        if (ret > 0) {
+        //          result.append("\ncard num:" + new String(data2));
+        //        } else {
+        //          String data = new String("获取卡号失败");
+        //          result.append("\n" + data);
+        //        }
+        //        long ret3 = UsbApi.ICC_Reader_Application(slot, 5, APU4, apdu4);
+        //        println("--->>>card name Hex:" + HexUtil.bytesToHexString(apdu4, (int) ret3));
+        //        if (ret3 > 0) {
+        //          try {
+        //            String name = new String(apdu4, 2, (byte) 0x1E, "GBK").trim();
+        //            result.append("\ncard name:" + name);
+        //          } catch (UnsupportedEncodingException e) {
+        //            e.printStackTrace();
+        //          }
+        //        } else {
+        //          String data = new String("获取持卡人失败");
+        //          result.append("\n" + data);
+        //        }
 
-       /* byte[] cmd = {0x00, (byte) 0x84, 0x00, 0x00, 0x08};
+        byte[] cmd = {0x00, (byte) 0x84, 0x00, 0x00, 0x08};
         byte[] apdu = new byte[64];
         ret = UsbApi.ICC_Reader_Application(slot, 5, cmd, apdu);
         result.append("\napplication=" + ret);
@@ -136,10 +131,15 @@ public class UIccActivity extends BaseActivity implements View.OnClickListener {
         } else {
           String data = new String("取随机数失败");
           result.append("\n" + data);
-        }*/
+        }
         break;
       case R.id.powerOff:
         ret = UsbApi.ICC_Reader_PowerOff(slot);
+        result.append("\npowerOff=" + ret);
+        result.append("\n------------------------");
+        break;
+      case R.id.update:
+        ret = UsbApi.Reader_UpgraderMode();
         result.append("\npowerOff=" + ret);
         result.append("\n------------------------");
         break;
@@ -156,6 +156,6 @@ public class UIccActivity extends BaseActivity implements View.OnClickListener {
     super.onDestroy();
     UDevice.mDeviceConnection.close();
     UDevice.mDeviceConnection = null;
-//    UsbUtil.getInstance(this).usbDestroy();
+    //    UsbUtil.getInstance(this).usbDestroy();
   }
 }

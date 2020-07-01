@@ -14,8 +14,8 @@ Java_com_xwr_mulkeyboard_usbapi_UsbApi_stringFromJNI(JNIEnv *env, jclass type) {
 extern "C"
 JNIEXPORT jlong JNICALL
 Java_com_xwr_mulkeyboard_usbapi_UsbApi_Reader_1Init(JNIEnv *env, jclass type,
-                                                      jobject deviceConnection, jobject usbEpIn,
-                                                      jobject usbEPOut) {
+                                                    jobject deviceConnection, jobject usbEpIn,
+                                                    jobject usbEPOut) {
 
     jlong ret;
     ret = Reader_Init(env, deviceConnection, usbEpIn, usbEPOut);
@@ -36,7 +36,7 @@ Java_com_xwr_mulkeyboard_usbapi_UsbApi_Test_1Beep(JNIEnv *env, jclass type) {
 extern "C"
 JNIEXPORT jlong JNICALL
 Java_com_xwr_mulkeyboard_usbapi_UsbApi_ICC_1Reader_1PowerOn(JNIEnv *env, jclass type, jbyte slot,
-                                                              jbyteArray atr_) {
+                                                            jbyteArray atr_) {
     jlong ret;
     jbyte *atr = env->GetByteArrayElements(atr_, NULL);
     unsigned char *uc_atr = (unsigned char *) atr;
@@ -49,7 +49,7 @@ Java_com_xwr_mulkeyboard_usbapi_UsbApi_ICC_1Reader_1PowerOn(JNIEnv *env, jclass 
 extern "C"
 JNIEXPORT jlong JNICALL
 Java_com_xwr_mulkeyboard_usbapi_UsbApi_ICC_1Reader_1PowerOff(JNIEnv *env, jclass type,
-                                                               jbyte slot) {
+                                                             jbyte slot) {
 
     jlong ret;
     ret = ICC_Reader_PowerOff(env, slot);
@@ -60,7 +60,7 @@ Java_com_xwr_mulkeyboard_usbapi_UsbApi_ICC_1Reader_1PowerOff(JNIEnv *env, jclass
 extern "C"
 JNIEXPORT jlong JNICALL
 Java_com_xwr_mulkeyboard_usbapi_UsbApi_ICC_1Reader_1GetStatus(JNIEnv *env, jclass type,
-                                                                jbyte slot) {
+                                                              jbyte slot) {
 
     jlong ret;
     ret = ICC_Reader_GetStatus(env, slot);
@@ -70,9 +70,9 @@ Java_com_xwr_mulkeyboard_usbapi_UsbApi_ICC_1Reader_1GetStatus(JNIEnv *env, jclas
 extern "C"
 JNIEXPORT jlong JNICALL
 Java_com_xwr_mulkeyboard_usbapi_UsbApi_ICC_1Reader_1Application(JNIEnv *env, jclass type,
-                                                                  jbyte slot, jlong command_len,
-                                                                  jbyteArray apdu_,
-                                                                  jbyteArray respond_apdu_) {
+                                                                jbyte slot, jlong command_len,
+                                                                jbyteArray apdu_,
+                                                                jbyteArray respond_apdu_) {
     jlong ret;
     jbyte *apdu = env->GetByteArrayElements(apdu_, NULL);
     jbyte *respond_apdu = env->GetByteArrayElements(respond_apdu_, NULL);
@@ -89,7 +89,7 @@ Java_com_xwr_mulkeyboard_usbapi_UsbApi_ICC_1Reader_1Application(JNIEnv *env, jcl
 extern "C"
 JNIEXPORT jlong JNICALL
 Java_com_xwr_mulkeyboard_usbapi_UsbApi_ICC_1Reader_1GetDevID(JNIEnv *env, jclass type,
-                                                               jbyteArray device_id_) {
+                                                             jbyteArray device_id_) {
     jlong ret;
     jbyte *device_id = env->GetByteArrayElements(device_id_, NULL);
     char *uc_device_id = (char *) device_id;
@@ -116,7 +116,7 @@ Java_com_xwr_mulkeyboard_usbapi_UsbApi_Lib_1Version(JNIEnv *env, jclass type, jb
 extern "C"
 JNIEXPORT jlong JNICALL
 Java_com_xwr_mulkeyboard_usbapi_UsbApi_Syn_1Read_1Card(JNIEnv *env, jclass type,
-                                                         jbyteArray cardInfo_) {
+                                                       jbyteArray cardInfo_) {
     jlong ret;
     jbyte *cardInfo = env->GetByteArrayElements(cardInfo_, NULL);
     unsigned char *uc_info = (unsigned char *) cardInfo;
@@ -138,7 +138,7 @@ Java_com_xwr_mulkeyboard_usbapi_UsbApi_Syn_1Find_1Card(JNIEnv *env, jclass type)
 extern "C"
 JNIEXPORT jlong JNICALL
 Java_com_xwr_mulkeyboard_usbapi_UsbApi_Syn_1Get_1Card(JNIEnv *env, jclass type,
-                                                        jbyteArray cardInfo_) {
+                                                      jbyteArray cardInfo_) {
     jlong ret;
     jbyte *cardInfo = env->GetByteArrayElements(cardInfo_, NULL);
     unsigned char *uc_info = (unsigned char *) cardInfo;
@@ -156,4 +156,12 @@ Java_com_xwr_mulkeyboard_usbapi_UsbApi_Syn_1Select_1Card(JNIEnv *env, jclass typ
     ret = Syn_Select_Card(env);
     return ret;
 
+}
+
+extern "C"
+JNIEXPORT jlong JNICALL
+Java_com_xwr_mulkeyboard_usbapi_UsbApi_Reader_1UpgraderMode(JNIEnv *env, jclass type) {
+    jlong ret;
+    ret = Reader_UpgraderMode(env);
+    return ret;
 }

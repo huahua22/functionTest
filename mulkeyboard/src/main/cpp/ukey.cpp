@@ -133,3 +133,4 @@ Java_com_xwr_mulkeyboard_UKeyApi_key_1usb_1init(JNIEnv *env, jclass type, jbyteA
     env->ReleaseByteArrayElements(response_, response, 0);
     return ret;
 }
+

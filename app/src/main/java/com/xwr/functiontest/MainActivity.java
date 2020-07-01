@@ -24,4 +24,12 @@ public class MainActivity extends BaseActivity {
     startActivity(new Intent(this, UIdActivity.class));
   }
 
+  public void cam(View view) {
+    startActivity(new Intent(this, CameraActivity.class));
+  }
+
+  public void update(View view) {
+    startActivity(new Intent(this, UpdateActivity.class));
+  }
+
 }

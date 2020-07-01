@@ -28,12 +28,14 @@ public class UIdActivity extends BaseActivity implements View.OnClickListener {
   private Handler handler = new Handler();
   private Runnable task = new Runnable() {
     public void run() {
+      Log.d("xwr", "test");
       if (UDevice.mDeviceConnection == null) {
         try {
-          UsbUtil.getInstance(mContext).initUsbData(0xffff,0xffff);
+          UsbUtil.getInstance(mContext).initUsbData(0xffff, 0xffff);
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
+        UsbApi.Reader_Init(UDevice.mDeviceConnection, UDevice.usbEpIn, UDevice.usbEpOut);
       }
       Log.d("xwr", Thread.currentThread().getName());
       handler.postDelayed(this, 1000);//设置延迟时间
@@ -44,9 +46,21 @@ public class UIdActivity extends BaseActivity implements View.OnClickListener {
           public void run() {
             long ret;
             byte[] cardInfo = new byte[1300];
+            long tmp = System.currentTimeMillis();
             ret = UsbApi.Syn_Get_Card(cardInfo);
-            tvOutput.append("第" + i + "次：" + "get card=" + ret);
-            Log.d("data", "data=" + HexUtil.bytesToHexString(cardInfo, 1300));
+            tvOutput.append("第" + i + "次：" + "get card=" + ret + ";" + (System.currentTimeMillis() - tmp) + "ms");
+            if (ret == 0) {
+              byte[] idnum = new byte[36];
+              System.arraycopy(cardInfo, 122, idnum, 0, 36);
+              String cardId = null;
+              try {
+                cardId = getString(idnum);
+                System.out.println(cardId);
+              } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+              }
+            }
+
             tvOutput.append("\n----------------\n");
             i++;
           }
@@ -75,7 +89,7 @@ public class UIdActivity extends BaseActivity implements View.OnClickListener {
       case R.id.btnleft01:
         if (UDevice.mDeviceConnection == null) {
           try {
-            UsbUtil.getInstance(this).initUsbData(0xffff,0xffff);
+            UsbUtil.getInstance(this).initUsbData(0xffff, 0xffff);
           } catch (InterruptedException e) {
             e.printStackTrace();
           }
@@ -83,8 +97,6 @@ public class UIdActivity extends BaseActivity implements View.OnClickListener {
         ret = UsbApi.Reader_Init(UDevice.mDeviceConnection, UDevice.usbEpIn, UDevice.usbEpOut);
         tvOutput.append("\nread init=" + ret);
         byte[] cardInfo = new byte[1300];
-        ret = UsbApi.Reader_Init(UDevice.mDeviceConnection, UDevice.usbEpIn, UDevice.usbEpOut);
-        tvOutput.append("\nread init=" + ret);
         ret = UsbApi.Syn_Get_Card(cardInfo);
         tvOutput.append("\nget card=" + ret);
         tvOutput.append("\ndata=" + HexUtil.bytesToHexString(cardInfo, 1300));
@@ -103,9 +115,7 @@ public class UIdActivity extends BaseActivity implements View.OnClickListener {
           } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
           }
-
         }
-
         tvOutput.append("\n------------------\n");
         break;
       case R.id.btnleft02:
@@ -115,6 +125,7 @@ public class UIdActivity extends BaseActivity implements View.OnClickListener {
         break;
       case R.id.btnleft03:
         isRoll = false;
+        handler.removeCallbacks(task);
         roll.setClickable(true);
         break;
     }
@@ -134,7 +145,7 @@ public class UIdActivity extends BaseActivity implements View.OnClickListener {
     super.onDestroy();
     UDevice.mDeviceConnection.close();
     UDevice.mDeviceConnection = null;
-//    UsbUtil.getInstance(this).usbDestroy();
+    //    UsbUtil.getInstance(this).usbDestroy();
   }
 
 

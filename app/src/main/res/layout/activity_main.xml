@@ -32,4 +32,20 @@
 		android:text="二代证"
 		/>
 
+	<Button
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="20dp"
+		android:onClick="cam"
+		android:text="相机"
+		android:visibility="gone"/>
+
+	<Button
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="20dp"
+		android:onClick="update"
+		android:text="升级"/>
+
+
 </LinearLayout>

@@ -56,6 +56,7 @@ public class MulkeyActivity extends BaseActivity {
       mKeyboardServer = new KeyboardServer();
       mKeyboardServer.key_init();
       int ret = mKeyboardServer.key_read_init();
+      mInit.setText("init:" + ret);
     } else {
       Toast.makeText(this, "请获取权限", Toast.LENGTH_LONG).show();
     }

@@ -5,6 +5,7 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
+	android:padding="20dp"
 	tools:context=".UIdActivity">
 
 	<ScrollView
@@ -57,6 +58,8 @@
 		android:layout_height="wrap_content"
 		android:layout_alignRight="@id/tv"
 		android:layout_alignParentRight="true"
+		android:layout_marginBottom="20dp"
+		android:textSize="22sp"
 		android:text="开始"
 		/>
 
@@ -67,6 +70,8 @@
 		android:layout_below="@id/btnleft01"
 		android:layout_alignRight="@id/tv"
 		android:layout_alignParentRight="true"
+		android:layout_marginBottom="20dp"
+		android:textSize="22sp"
 		android:text="循环"
 		/>
 
@@ -75,6 +80,7 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_below="@id/btnleft02"
+		android:textSize="22sp"
 		android:layout_alignRight="@id/tv"
 		android:layout_alignParentRight="true"
 		android:text="暂停"
