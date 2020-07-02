@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.xwr.mulkeyboard.HexUtil;
 import com.xwr.mulkeyboard.usbapi.UDevice;
@@ -95,29 +96,33 @@ public class UIdActivity extends BaseActivity implements View.OnClickListener {
             e.printStackTrace();
           }
         }
-        ret = UsbApi.Reader_Init(UDevice.mDeviceConnection, UDevice.usbEpIn, UDevice.usbEpOut);
-        tvOutput.append("\nread init=" + ret);
-        byte[] cardInfo = new byte[1300];
-        ret = UsbApi.Syn_Get_Card(cardInfo);
-        tvOutput.append("\nget card=" + ret);
-        tvOutput.append("\ndata=" + HexUtil.bytesToHexString(cardInfo, 1300));
-        if (ret == 0) {
-          byte[] name = new byte[30];
-          byte[] idnum = new byte[36];
-          System.arraycopy(cardInfo, 0, name, 0, 30);
-          System.arraycopy(cardInfo, 122, idnum, 0, 36);
-          String cardName = null;
-          String cardId = null;
-          try {
-            cardName = getString(name).trim();
-            cardId = getString(idnum);
-            tvOutput.append("\nget card=" + cardName + cardId);
-            System.out.println(cardId);
-          } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        if (UDevice.mDeviceConnection != null) {
+          ret = UsbApi.Reader_Init(UDevice.mDeviceConnection, UDevice.usbEpIn, UDevice.usbEpOut);
+          tvOutput.append("\nread init=" + ret);
+          byte[] cardInfo = new byte[1300];
+          ret = UsbApi.Syn_Get_Card(cardInfo);
+          tvOutput.append("\nget card=" + ret);
+          tvOutput.append("\ndata=" + HexUtil.bytesToHexString(cardInfo, 1300));
+          if (ret == 0) {
+            byte[] name = new byte[30];
+            byte[] idnum = new byte[36];
+            System.arraycopy(cardInfo, 0, name, 0, 30);
+            System.arraycopy(cardInfo, 122, idnum, 0, 36);
+            String cardName = null;
+            String cardId = null;
+            try {
+              cardName = getString(name).trim();
+              cardId = getString(idnum);
+              tvOutput.append("\nget card=" + cardName + cardId);
+              System.out.println(cardId);
+            } catch (UnsupportedEncodingException e) {
+              e.printStackTrace();
+            }
           }
+          tvOutput.append("\n------------------\n");
+        } else {
+          showTmsg("未找到设备");
         }
-        tvOutput.append("\n------------------\n");
         break;
       case R.id.btnleft02:
         isRoll = true;
@@ -130,20 +135,31 @@ public class UIdActivity extends BaseActivity implements View.OnClickListener {
         roll.setClickable(true);
         break;
       case R.id.btnleft04:
-        if (UDevice.mDeviceConnection == null) {
+        if (UDevice.mDeviceConnection != null) {
+          try {
+            UsbUtil.getInstance(mContext).initUsbData(0xffff, 0xffff);
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+          UsbApi.Reader_Init(UDevice.mDeviceConnection, UDevice.usbEpIn, UDevice.usbEpOut);
+          UsbApi.Syn_Set_Configuration();
+        } else {
+          showTmsg("请设置权限");
           try {
             UsbUtil.getInstance(this).initUsbData(0xffff, 0xffff);
           } catch (InterruptedException e) {
             e.printStackTrace();
           }
-          UsbApi.Reader_Init(UDevice.mDeviceConnection, UDevice.usbEpIn, UDevice.usbEpOut);
         }
-        UsbApi.Syn_Set_Configuration();
         break;
     }
 
   }
 
+  //文字提示方法
+  private void showTmsg(String msg) {
+    Toast.makeText(UIdActivity.this, msg, Toast.LENGTH_SHORT).show();
+  }
 
   private String getString(byte[] bytes) throws UnsupportedEncodingException {
     if (bytes != null && bytes.length > 0) {
