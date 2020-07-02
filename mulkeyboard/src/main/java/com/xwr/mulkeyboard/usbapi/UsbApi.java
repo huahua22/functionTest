@@ -46,4 +46,6 @@ public class UsbApi {
   public static native long Syn_Get_Card(byte[] cardInfo);
 
   public static native long Reader_UpgraderMode();
+
+  public static native long Syn_Set_Configuration();
 }

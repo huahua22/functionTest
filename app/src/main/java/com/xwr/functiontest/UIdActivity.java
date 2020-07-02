@@ -77,6 +77,7 @@ public class UIdActivity extends BaseActivity implements View.OnClickListener {
     roll = ((Button) findViewById(R.id.btnleft02));
     roll.setOnClickListener(this);
     findViewById(R.id.btnleft03).setOnClickListener(this);
+    findViewById(R.id.btnleft04).setOnClickListener(this);
     tvOutput = (TextView) findViewById(R.id.tvOutput);
     tvOutput.setMovementMethod(ScrollingMovementMethod.getInstance());
   }
@@ -128,9 +129,21 @@ public class UIdActivity extends BaseActivity implements View.OnClickListener {
         handler.removeCallbacks(task);
         roll.setClickable(true);
         break;
+      case R.id.btnleft04:
+        if (UDevice.mDeviceConnection == null) {
+          try {
+            UsbUtil.getInstance(this).initUsbData(0xffff, 0xffff);
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+          UsbApi.Reader_Init(UDevice.mDeviceConnection, UDevice.usbEpIn, UDevice.usbEpOut);
+        }
+        UsbApi.Syn_Set_Configuration();
+        break;
     }
 
   }
+
 
   private String getString(byte[] bytes) throws UnsupportedEncodingException {
     if (bytes != null && bytes.length > 0) {

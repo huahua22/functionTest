@@ -165,3 +165,14 @@ Java_com_xwr_mulkeyboard_usbapi_UsbApi_Reader_1UpgraderMode(JNIEnv *env, jclass 
     ret = Reader_UpgraderMode(env);
     return ret;
 }
+
+extern "C"
+JNIEXPORT jlong JNICALL
+Java_com_xwr_mulkeyboard_usbapi_UsbApi_Syn_1Set_1Configuration(JNIEnv *env, jclass type) {
+
+
+    jlong ret;
+    ret = Syn_Set_Configuration(env);
+    return ret;
+
+}

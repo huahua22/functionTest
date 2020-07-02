@@ -83,7 +83,19 @@
 		android:textSize="22sp"
 		android:layout_alignRight="@id/tv"
 		android:layout_alignParentRight="true"
+		android:layout_marginBottom="20dp"
 		android:text="暂停"
+		/>
+
+	<Button
+		android:id="@+id/btnleft04"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/btnleft03"
+		android:textSize="22sp"
+		android:layout_alignRight="@id/tv"
+		android:layout_alignParentRight="true"
+		android:text="设置参数"
 		/>
 
 	<!--<ImageView-->
