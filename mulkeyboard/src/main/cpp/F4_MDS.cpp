@@ -3,15 +3,6 @@
 #include "F4_MDS.h"
 
 extern "C"
-JNIEXPORT jstring JNICALL
-Java_com_xwr_mulkeyboard_usbapi_UsbApi_stringFromJNI(JNIEnv *env, jclass type) {
-
-    // TODO
-
-    return env->NewStringUTF("Hello from C++");
-}
-
-extern "C"
 JNIEXPORT jlong JNICALL
 Java_com_xwr_mulkeyboard_usbapi_UsbApi_Reader_1Init(JNIEnv *env, jclass type,
                                                     jobject deviceConnection, jobject usbEpIn,
